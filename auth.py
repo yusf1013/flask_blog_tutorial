@@ -44,7 +44,7 @@ def login():
         error = None
         user = sql_raw_query(
             'SELECT * FROM user WHERE username = :username', {"username": username}
-        ).one()
+        ).one_or_none()
 
         if user is None:
             error = 'Incorrect username.'
