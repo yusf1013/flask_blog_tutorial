@@ -1,10 +1,12 @@
 from flask import Flask
+from db import initialize_db
 
 app = Flask(__name__)
+initialize_db()
 
 
 @app.route('/')
-def hello_world():  # put application's code here
+def hello_world(): 
     return 'Hello World!'
 
 
