@@ -1,3 +1,5 @@
+import functools
+
 from flask import Blueprint, flash, g, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
 from db import sql_raw_query
@@ -44,7 +46,7 @@ def login():
         error = None
         user = sql_raw_query(
             'SELECT * FROM user WHERE username = :username', {"username": username}
-        ).one()
+        ).one_or_none()
 
         if user is None:
             error = 'Incorrect username.'
@@ -60,18 +62,30 @@ def login():
 
     return render_template('auth/login.html')
 
-# @bp.route('/logout')
-# def logout():
-#     session.clear()
-#     return redirect(url_for('index'))
-#
-#
-# def login_required(view):
-#     @functools.wraps(view)
-#     def wrapped_view(**kwargs):
-#         if g.user is None:
-#             return redirect(url_for('auth.login'))
-#
-#         return view(**kwargs)
-#
-#     return wrapped_view
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = sql_raw_query(
+            'SELECT * FROM user WHERE id = :id', {"id": user_id}
+        ).one_or_none()
+
+
+@bp.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('index'))
+
+
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
