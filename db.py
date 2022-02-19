@@ -13,7 +13,7 @@ def initialize_db():
     conn = engine.connect()
 
     # comment this out if you don't want to reset database everytime
-    sql_execute_file("./schema.sql")
+    # sql_execute_file("./schema.sql")
 
 
 def sql_raw_query(query, data=None):
