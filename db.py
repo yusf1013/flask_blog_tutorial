@@ -16,7 +16,7 @@ def initialize_db():
     sql_execute_file("./schema.sql")
 
 
-def sql_raw_query(query, data):
+def sql_raw_query(query, data=None):
     if not data:
         return conn.execute(text(query))
     else:

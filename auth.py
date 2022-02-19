@@ -21,10 +21,13 @@ def register():
         if error is None:
             try:
                 sql_raw_query(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
-                ).all()
-            except exc.IntegrityError:
+                    "INSERT INTO user (username, password) VALUES (:username, :password)",
+                    {
+                        "username": username,
+                        "password": generate_password_hash(password)
+                    },
+                )
+            except exc.IntegrityError as e:
                 error = f"User {username} is already registered."
             else:
                 return redirect(url_for("auth.login"))
@@ -40,7 +43,7 @@ def login():
         password = request.form['password']
         error = None
         user = sql_raw_query(
-            'SELECT * FROM user WHERE username = ?', (username,)
+            'SELECT * FROM user WHERE username = :username', {"username": username}
         ).one()
 
         if user is None:
@@ -56,7 +59,6 @@ def login():
         flash(error)
 
     return render_template('auth/login.html')
-
 
 # @bp.route('/logout')
 # def logout():
