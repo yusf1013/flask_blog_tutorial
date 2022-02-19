@@ -16,8 +16,11 @@ def initialize_db():
     sql_execute_file("./schema.sql")
 
 
-def sql_raw_query(query):
-    conn.execute(text(query))
+def sql_raw_query(query, data):
+    if not data:
+        return conn.execute(text(query))
+    else:
+        return conn.execute(text(query), data)
 
 
 def sql_execute_file(file_path):
