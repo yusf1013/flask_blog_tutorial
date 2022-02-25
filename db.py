@@ -1,6 +1,7 @@
 from sqlalchemy import create_engine, text
 
 conn_str = "mysql://root:iit123@localhost/blogdb"
+# conn_str = "mysql://sql6474767:qWSQ4q1R7X@sql6.freemysqlhosting.net/sql6474767"
 engine = None
 conn = None
 
@@ -27,6 +28,7 @@ def sql_execute_file(file_path):
     file = open(file_path)
     queries = file.read().strip()
     queries = queries.split(";")
+
     for query in queries:
         if query:
             sql_raw_query(query)
