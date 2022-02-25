@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, text
 
-conn_str = "mysql://root:iit123@localhost/blogdb"
-# conn_str = "mysql://sql6474767:qWSQ4q1R7X@sql6.freemysqlhosting.net/sql6474767"
+# conn_str = "mysql://root:iit123@localhost/blogdb"
+conn_str = "mysql://sql6474767:qWSQ4q1R7X@sql6.freemysqlhosting.net/sql6474767"
 engine = None
 conn = None
 
