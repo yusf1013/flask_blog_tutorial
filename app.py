@@ -12,5 +12,9 @@ app.add_url_rule('/', endpoint='index')
 app.register_blueprint(auth.bp)
 initialize_db()
 
-if __name__ == '__main__':
-    app.run()
+# print("yoo")
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=80)
+#     print("IN")
+# else:
+#     print(__name__)
